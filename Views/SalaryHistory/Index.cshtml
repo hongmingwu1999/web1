@@ -1,0 +1,50 @@
+@model IEnumerable<web1.Models.SalaryHistory>
+
+<h2>Salary History</h2>
+
+<!-- Dropdown Filter Form -->
+<form method="get" action="@Url.Action("Index", "SalaryHistory")">
+    <label for="department">Filter by Department:</label>
+    <select id="department" name="departmentName" onchange="this.form.submit()">
+        <option value="">All Departments</option>
+        @foreach (var department in (ViewBag.Departments as List<string>))
+        {
+            <!option value="@department" @(ViewContext.HttpContext.Request.Query["departmentName"] == department ? "selected='selected'" : "")>
+                @department
+            </!option>
+        }
+    </select>
+</form>
+
+<!-- Buttons -->
+<div class="mb-3">
+    <form asp-action="Populate" method="post" style="display: inline;">
+        <button type="submit" class="btn btn-primary">Populate Salary History</button>
+    </form>
+    <form asp-action="Clear" method="post" style="display: inline;">
+        <button type="submit" class="btn btn-danger">Clear Salary History</button>
+    </form>
+</div>
+
+<!-- Table to Display Salary History -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Employee Name</th>
+            <th>Department</th>
+            <th>Salary Amount</th>
+            <th>Effective Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var salaryHistory in Model)
+        {
+            <tr>
+                <td>@salaryHistory.EmployeeName</td>
+                <td>@salaryHistory.Department</td>
+                <td>@salaryHistory.SalaryAmount</td>
+                <td>@salaryHistory.EffectiveDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+    </div>
+    <button type="submit">Register</button>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewData["ErrorMessage"]?.ToString()))
+{
+    <p style="color:red;">@ViewData["ErrorMessage"]</p>
+}
+
+<ul>
+    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+    {
+        <li style="color:red;">@error.ErrorMessage</li>
+    }
+</ul>
